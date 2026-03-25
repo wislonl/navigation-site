@@ -6,199 +6,329 @@
   <title>导航页</title>
   <style>
     :root {
-      --accent: #FF5A2D;
-      --accent-hover: #D14A22;
-      --bg: #f8f7f4;
-      --surface: #ffffff;
-      --border: #e5e2dd;
-      --text: #2d2a26;
-      --text-dim: #7a756d;
-      --shadow: 0 2px 8px rgba(0,0,0,0.06);
+      --accent: #FF6B35;
+      --accent-glow: rgba(255, 107, 53, 0.25);
+      --bg-dark: #f8f8fc;
+      --bg-card: #ffffff;
+      --bg-card-hover: #fafafa;
+      --border: #e8e8ed;
+      --text: #1d1d2e;
+      --text-dim: #6e6e7e;
+      --gradient-bg: linear-gradient(135deg, #f8f8fc 0%, #e8e8f0 100%);
+      --gradient-accent: linear-gradient(135deg, #FF6B35, #f7931e);
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-glow: 0 0 30px var(--accent-glow);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: var(--bg);
+      background: var(--gradient-bg);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
       font-size: 14px;
       line-height: 1.6;
       padding: 20px;
       min-height: 100vh;
+      transition: all 0.3s ease;
     }
 
     .header {
       text-align: center;
-      padding: 30px 20px 24px;
-      border-bottom: 2px solid var(--accent);
-      margin-bottom: 24px;
+      padding: 40px 20px 30px;
+      position: relative;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 150px;
+      background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+      opacity: 0.6;
+      pointer-events: none;
     }
 
     .header h1 {
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
+      font-size: 32px;
+      font-weight: 800;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      position: relative;
     }
-
-    .header h1 span { color: var(--accent); }
 
     .header p {
       color: var(--text-dim);
-      font-size: 13px;
+      font-size: 14px;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: var(--shadow-glow);
     }
 
     .search-wrap {
-      max-width: 480px;
-      margin: 0 auto 20px;
+      max-width: 560px;
+      margin: 0 auto 30px;
+      position: relative;
     }
 
     .search-box {
       width: 100%;
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 16px;
-      font-size: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 20px;
+      font-size: 15px;
       outline: none;
-      transition: border-color 0.2s;
+      color: var(--text);
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
     }
 
-    .search-box:focus { border-color: var(--accent); }
+    .search-box:focus {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .search-box::placeholder { color: var(--text-dim); }
 
     .categories {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       justify-content: center;
-      margin-bottom: 24px;
+      margin-bottom: 30px;
     }
 
     .cat-btn {
-      padding: 6px 14px;
+      padding: 8px 18px;
       border-radius: 20px;
-      border: 1.5px solid var(--border);
-      background: var(--surface);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
       color: var(--text-dim);
       font-size: 13px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.3s ease;
     }
 
-    .cat-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .cat-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .cat-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
 
-    .section { margin-bottom: 28px; }
+    .cat-btn.active {
+      background: var(--gradient-accent);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .section {
+      margin-bottom: 36px;
+      transition: all 0.3s ease;
+    }
 
     .section-title {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
       color: var(--text);
-      margin-bottom: 12px;
-      padding-left: 10px;
+      margin-bottom: 16px;
+      padding-left: 14px;
       border-left: 3px solid var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+      margin-left: 10px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
     }
 
     .card {
-      background: var(--surface);
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
+      border-radius: 16px;
+      padding: 20px;
       text-decoration: none;
       color: var(--text);
-      transition: all 0.2s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      min-height: 90px;
+      gap: 10px;
+      min-height: 100px;
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-accent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     .card:hover {
+      transform: translateY(-6px) scale(1.02);
       border-color: var(--accent);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(255, 90, 45, 0.12);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), var(--shadow-glow);
+      background: var(--bg-card-hover);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .card:active { cursor: grabbing; }
+
+    .card.dragging {
+      opacity: 0.5;
+      transform: scale(0.95);
+    }
+
+    .card.drag-over {
+      border-color: var(--accent);
+      background: var(--bg-card-hover);
     }
 
     .card-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       object-fit: contain;
-      background: #f0eeeb;
+      background: rgba(255,255,255,0.05);
+      padding: 6px;
     }
 
     .card-title {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       color: var(--text);
-      line-height: 1.3;
+      line-height: 1.4;
     }
 
     .card-desc {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--text-dim);
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .card-url {
       font-size: 11px;
-      color: var(--text-dim);
+      color: var(--accent);
       opacity: 0;
-      transition: opacity 0.2s;
+      transition: opacity 0.3s ease;
       margin-top: auto;
     }
 
-    .card:hover .card-url { opacity: 0.6; }
+    .card:hover .card-url { opacity: 1; }
 
     .hidden { display: none !important; }
 
     .footer {
       text-align: center;
-      padding: 30px;
+      padding: 40px 20px;
       color: var(--text-dim);
-      font-size: 12px;
+      font-size: 13px;
       border-top: 1px solid var(--border);
-      margin-top: 40px;
+      margin-top: 50px;
     }
 
     .back-top {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 40px;
-      height: 40px;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
-      background: var(--accent);
+      background: var(--gradient-accent);
       color: #fff;
       border: none;
-      font-size: 18px;
+      font-size: 20px;
       cursor: pointer;
-      opacity: 0.7;
-      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px var(--accent-glow);
     }
 
-    .back-top:hover { opacity: 1; }
-    .back-top.show { display: block; }
+    .back-top.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .back-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    /* Dark mode */
+    body.dark {
+      --bg-dark: #0f0f14;
+      --bg-card: #1a1a24;
+      --bg-card-hover: #22222e;
+      --border: #2a2a3a;
+      --text: #e8e6e3;
+      --text-dim: #8a8a9a;
+      --gradient-bg: linear-gradient(135deg, #0f0f14 0%, #1a1a2e 50%, #16213e 100%);
+      --shadow: 0 4px 20px rgba(0,0,0,0.3);
+      --shadow-glow: 0 0 30px rgba(255, 107, 53, 0.4);
+    }
 
     @media (max-width: 600px) {
-      .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
       body { padding: 12px; }
-      .header h1 { font-size: 22px; }
+      .header h1 { font-size: 26px; }
+      .header { padding: 30px 12px 20px; }
     }
   </style>
 </head>
 <body>
 
+<button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+
 <div class="header">
-  <h1>导航<span>页</span></h1>
+  <h1>导航页</h1>
   <p>快速访问常用网站</p>
 </div>
 
@@ -221,50 +351,47 @@
 <div class="section" data-cat="ai">
   <div class="section-title">AI 工具</div>
   <div class="grid">
-    <a class="card" href="https://chatgpt.com/" target="_blank">
+    <a class="card" href="https://chatgpt.com/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=chatgpt.com&sz=64" alt="">
       <div class="card-title">ChatGPT</div>
       <div class="card-desc">OpenAI 对话 AI</div>
+      <div class="card-url">chatgpt.com</div>
     </a>
-    <a class="card" href="https://claude.ai/new" target="_blank">
+    <a class="card" href="https://claude.ai/new" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64" alt="">
       <div class="card-title">Claude</div>
       <div class="card-desc">Anthropic AI 助手</div>
+      <div class="card-url">claude.ai</div>
     </a>
-    <a class="card" href="https://gemini.google.com/app" target="_blank">
+    <a class="card" href="https://gemini.google.com/app" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=64" alt="">
       <div class="card-title">Google Gemini</div>
       <div class="card-desc">Google AI 助手</div>
+      <div class="card-url">gemini.google.com</div>
     </a>
-    <a class="card" href="https://poe.com/" target="_blank">
+    <a class="card" href="https://poe.com/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=poe.com&sz=64" alt="">
       <div class="card-title">Poe</div>
-      <div class="card-desc">聚合多个 AI（GPT-4/GPT-3.5/Claude/Sage等）</div>
+      <div class="card-desc">聚合多个 AI</div>
+      <div class="card-url">poe.com</div>
     </a>
-    <a class="card" href="https://www.perplexity.ai/" target="_blank">
+    <a class="card" href="https://www.perplexity.ai/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=perplexity.ai&sz=64" alt="">
       <div class="card-title">Perplexity</div>
-      <div class="card-desc">AI 搜索，引用的来源可点击</div>
+      <div class="card-desc">AI 搜索</div>
+      <div class="card-url">perplexity.ai</div>
     </a>
-    <a class="card" href="https://cursor.com/" target="_blank">
+    <a class="card" href="https://cursor.com/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=cursor.com&sz=64" alt="">
       <div class="card-title">Cursor</div>
-      <div class="card-desc">AI 代码编辑器（VS Code 分支）</div>
+      <div class="card-desc">AI 代码编辑器</div>
+      <div class="card-url">cursor.com</div>
     </a>
-    <a class="card" href="https://notebooklm.google.com/" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=notebooklm.google.com&sz=64" alt="">
-      <div class="card-title">NotebookLM</div>
-      <div class="card-desc">Google AI 笔记本，上传文档生成摘要</div>
-    </a>
-    <a class="card" href="https://www.deepseek.com/" target="_blank">
+    <a class="card" href="https://www.deepseek.com/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=deepseek.com&sz=64" alt="">
       <div class="card-title">DeepSeek</div>
-      <div class="card-desc">国产开源大模型，代码能力强</div>
-    </a>
-    <a class="card" href="https://claude.ai/ai" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64" alt="">
-      <div class="card-title">Claude 3.5 Sonnet</div>
-      <div class="card-desc">最强编程能力，最新版本</div>
+      <div class="card-desc">国产开源大模型</div>
+      <div class="card-url">deepseek.com</div>
     </a>
   </div>
 </div>
@@ -273,55 +400,35 @@
 <div class="section" data-cat="dev">
   <div class="section-title">开发工具</div>
   <div class="grid">
-    <a class="card" href="https://github.com/wislonl" target="_blank">
+    <a class="card" href="https://github.com/wislonl" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=github.com&sz=64" alt="">
       <div class="card-title">GitHub</div>
       <div class="card-desc">代码仓库</div>
+      <div class="card-url">github.com</div>
     </a>
-    <a class="card" href="https://github.com/eswincomputing" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=github.com&sz=64" alt="">
-      <div class="card-title">ESWIN GitHub</div>
-      <div class="card-desc">ESWINComputing</div>
-    </a>
-    <a class="card" href="https://gitlab.com/" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=gitlab.com&sz=64" alt="">
-      <div class="card-title">GitLab</div>
-      <div class="card-desc">代码仓库 + CI/CD + DevOps</div>
-    </a>
-    <a class="card" href="https://vercel.com/dashboard" target="_blank">
+    <a class="card" href="https://vercel.com/dashboard" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=vercel.com&sz=64" alt="">
       <div class="card-title">Vercel</div>
-      <div class="card-desc">前端部署（Next.js/React）</div>
+      <div class="card-desc">前端部署</div>
+      <div class="card-url">vercel.com</div>
     </a>
-    <a class="card" href="https://netlify.com/" target="_blank">
+    <a class="card" href="https://netlify.com/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=netlify.com&sz=64" alt="">
       <div class="card-title">Netlify</div>
-      <div class="card-desc">静态网页托管，可设密码保护</div>
+      <div class="card-desc">静态网页托管</div>
+      <div class="card-url">netlify.com</div>
     </a>
-    <a class="card" href="https://clawhub.ai/" target="_blank">
+    <a class="card" href="https://clawhub.ai/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=clawhub.ai&sz=64" alt="">
       <div class="card-title">ClawHub</div>
       <div class="card-desc">OpenClaw 技能市场</div>
+      <div class="card-url">clawhub.ai</div>
     </a>
-    <a class="card" href="https://platform.minimaxi.com/user-center/basic-information" target="_blank">
+    <a class="card" href="https://platform.minimaxi.com/user-center/basic-information" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=minimaxi.com&sz=64" alt="">
       <div class="card-title">MiniMax 平台</div>
       <div class="card-desc">账户信息 / 用量</div>
-    </a>
-    <a class="card" href="https://open.feishu.cn/app?lang=zh-CN" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=feishu.cn&sz=64" alt="">
-      <div class="card-title">飞书开放平台</div>
-      <div class="card-desc">开发者后台</div>
-    </a>
-    <a class="card" href="https://docs.openclaw.ai/zh-CN/platforms" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=docs.openclaw.ai&sz=64" alt="">
-      <div class="card-title">OpenClaw 文档</div>
-      <div class="card-desc">平台配置指南</div>
-    </a>
-    <a class="card" href="https://ngrok.com/" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=ngrok.com&sz=64" alt="">
-      <div class="card-title">ngrok</div>
-      <div class="card-desc">本地服务公网映射 / Webhook 测试</div>
+      <div class="card-url">minimaxi.com</div>
     </a>
   </div>
 </div>
@@ -330,25 +437,23 @@
 <div class="section" data-cat="social">
   <div class="section-title">社交</div>
   <div class="grid">
-    <a class="card" href="https://x.com/home" target="_blank">
+    <a class="card" href="https://x.com/home" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=x.com&sz=64" alt="">
       <div class="card-title">X (Twitter)</div>
       <div class="card-desc">社交媒体</div>
+      <div class="card-url">x.com</div>
     </a>
-    <a class="card" href="https://www.zhihu.com/" target="_blank">
+    <a class="card" href="https://www.zhihu.com/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=zhihu.com&sz=64" alt="">
       <div class="card-title">知乎</div>
       <div class="card-desc">问答社区</div>
+      <div class="card-url">zhihu.com</div>
     </a>
-    <a class="card" href="https://mp.weixin.qq.com/cgi-bin/home?t=home/index&token=511731484&lang=zh_CN" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=mp.weixin.qq.com&sz=64" alt="">
-      <div class="card-title">公众号</div>
-      <div class="card-desc">微信公众平台</div>
-    </a>
-    <a class="card" href="https://www.youtube.com/" target="_blank">
+    <a class="card" href="https://www.youtube.com/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64" alt="">
       <div class="card-title">YouTube</div>
       <div class="card-desc">视频平台</div>
+      <div class="card-url">youtube.com</div>
     </a>
   </div>
 </div>
@@ -357,50 +462,23 @@
 <div class="section" data-cat="learn">
   <div class="section-title">学习</div>
   <div class="grid">
-    <a class="card" href="https://www.kaggle.com/" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=kaggle.com&sz=64" alt="">
-      <div class="card-title">Kaggle</div>
-      <div class="card-desc">数据科学 / 机器学习竞赛</div>
-    </a>
-    <a class="card" href="https://stackoverflow.com/" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=stackoverflow.com&sz=64" alt="">
-      <div class="card-title">Stack Overflow</div>
-      <div class="card-desc">全球最大程序员问答社区</div>
-    </a>
-    <a class="card" href="https://github.com/" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=github.com&sz=64" alt="">
-      <div class="card-title">GitHub Explore</div>
-      <div class="card-desc">发现开源项目 / Trending</div>
-    </a>
-    <a class="card" href="https://dev.to/" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=dev.to&sz=64" alt="">
-      <div class="card-title">Dev.to</div>
-      <div class="card-desc">开发者社区，文章质量高</div>
-    </a>
-    <a class="card" href="https://www.lablab.ai/" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=lablab.ai&sz=64" alt="">
-      <div class="card-title">lablab.ai</div>
-      <div class="card-desc">AI Hackathon 平台，实践项目</div>
-    </a>
-    <a class="card" href="https://huggingface.co/" target="_blank">
+    <a class="card" href="https://huggingface.co/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=huggingface.co&sz=64" alt="">
       <div class="card-title">Hugging Face</div>
-      <div class="card-desc">AI 模型库 / 数据集 / 论文</div>
+      <div class="card-desc">AI 模型库</div>
+      <div class="card-url">huggingface.co</div>
     </a>
-    <a class="card" href="https://arxiv.org/" target="_blank">
+    <a class="card" href="https://arxiv.org/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=arxiv.org&sz=64" alt="">
       <div class="card-title">arXiv</div>
-      <div class="card-desc">AI / ML 最新论文预印本</div>
+      <div class="card-desc">AI / ML 论文</div>
+      <div class="card-url">arxiv.org</div>
     </a>
-    <a class="card" href="https://drive.google.com/drive/home?dmr=1&ec=wgc-drive-hero-goto" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=google.com&sz=64" alt="">
-      <div class="card-title">Google Drive</div>
-      <div class="card-desc">云盘存储</div>
-    </a>
-    <a class="card" href="https://wislonl.github.io/ai-chip-book/" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=github.io&sz=64" alt="">
-      <div class="card-title">AI芯片设计（中文版）</div>
-      <div class="card-desc">AI CPU架构 · 脉动阵列 · HBM · 软硬件协同设计</div>
+    <a class="card" href="https://stackoverflow.com/" target="_blank" draggable="true">
+      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=stackoverflow.com&sz=64" alt="">
+      <div class="card-title">Stack Overflow</div>
+      <div class="card-desc">程序员问答</div>
+      <div class="card-url">stackoverflow.com</div>
     </a>
   </div>
 </div>
@@ -409,42 +487,17 @@
 <div class="section" data-cat="hardware">
   <div class="section-title">硬件</div>
   <div class="grid">
-    <a class="card" href="https://dl.sipeed.com/" target="_blank">
+    <a class="card" href="https://dl.sipeed.com/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=sipeed.com&sz=64" alt="">
       <div class="card-title">Sipeed 下载站</div>
-      <div class="card-desc">开发板 / 下载资源</div>
+      <div class="card-desc">开发板资源</div>
+      <div class="card-url">sipeed.com</div>
     </a>
-    <a class="card" href="https://www.raspberrypi.com/" target="_blank">
+    <a class="card" href="https://www.raspberrypi.com/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=raspberrypi.com&sz=64" alt="">
       <div class="card-title">Raspberry Pi</div>
-      <div class="card-desc">树莓派官网 / 社区</div>
-    </a>
-    <a class="card" href="https://www.arduino.cc/" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=arduino.cc&sz=64" alt="">
-      <div class="card-title">Arduino</div>
-      <div class="card-desc">开源硬件平台</div>
-    </a>
-    <a class="card" href="https://www.eswincomputing.com/community/h5/index.html#/devSport?id=57" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=eswincomputing.com&sz=64" alt="">
-      <div class="card-title">ESWIN 社区</div>
-      <div class="card-desc">eic 相关资源</div>
-    </a>
-  </div>
-</div>
-
-<!-- 我的工具 -->
-<div class="section" data-cat="tools">
-  <div class="section-title">我的工具</div>
-  <div class="grid">
-    <a class="card" href="https://wislonl.github.io/openclaw-cheatsheet/" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=github.io&sz=64" alt="">
-      <div class="card-title">OpenClaw 速查表</div>
-      <div class="card-desc">OpenClaw 命令与配置速查</div>
-    </a>
-    <a class="card" href="https://wislonl.github.io/openclaw-cheatsheet/ai-image-guide.html" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=github.io&sz=64" alt="">
-      <div class="card-title">AI 生图指南</div>
-      <div class="card-desc">MiniMax 图片生成技巧</div>
+      <div class="card-desc">树莓派官网</div>
+      <div class="card-url">raspberrypi.com</div>
     </a>
   </div>
 </div>
@@ -453,25 +506,17 @@
 <div class="section" data-cat="local">
   <div class="section-title">本地服务</div>
   <div class="grid">
-    <a class="card" href="http://127.0.0.1:18789/chat?session=agent%3Amain%3Amain" target="_blank">
+    <a class="card" href="http://127.0.0.1:18789/chat?session=agent%3Amain%3Amain" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=localhost&sz=64" alt="">
       <div class="card-title">OpenClaw 控制台</div>
       <div class="card-desc">本地 Gateway</div>
+      <div class="card-url">localhost:18789</div>
     </a>
-    <a class="card" href="http://localhost:3000/" target="_blank">
+    <a class="card" href="http://localhost:3000/" target="_blank" draggable="true">
       <img class="card-icon" src="https://www.google.com/s2/favicons?domain=localhost&sz=64" alt="">
       <div class="card-title">任务清单</div>
       <div class="card-desc">localhost:3000</div>
-    </a>
-    <a class="card" href="http://192.168.5.1/#/app/application" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=192.168.5.1&sz=64" alt="">
-      <div class="card-title">中兴路由器</div>
-      <div class="card-desc">192.168.5.1</div>
-    </a>
-    <a class="card" href="http://1.95.142.151:3000/console/topup" target="_blank">
-      <img class="card-icon" src="https://www.google.com/s2/favicons?domain=1.95.142.151&sz=64" alt="">
-      <div class="card-title">蓝移 API</div>
-      <div class="card-desc">API 管理</div>
+      <div class="card-url">localhost:3000</div>
     </a>
   </div>
 </div>
@@ -483,6 +528,23 @@
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
+  // 主题切换
+  function toggleTheme() {
+    document.body.classList.toggle('dark');
+    const btn = document.querySelector('.theme-toggle');
+    btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+  }
+
+  // 恢复主题（默认浅色）
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark');
+    document.querySelector('.theme-toggle').textContent = '☀️';
+  } else {
+    document.body.classList.add('light');
+    document.querySelector('.theme-toggle').textContent = '🌙';
+  }
+
   // 搜索过滤
   document.getElementById('search').addEventListener('input', function() {
     const q = this.value.toLowerCase();
@@ -517,6 +579,50 @@
       e.preventDefault();
       document.getElementById('search').focus();
     }
+  });
+
+  // 拖拽排序
+  let draggedCard = null;
+
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('dragstart', e => {
+      draggedCard = card;
+      card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+
+    card.addEventListener('dragend', () => {
+      card.classList.remove('dragging');
+      draggedCard = null;
+    });
+
+    card.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (draggedCard && draggedCard !== card) {
+        card.classList.add('drag-over');
+      }
+    });
+
+    card.addEventListener('dragleave', () => {
+      card.classList.remove('drag-over');
+    });
+
+    card.addEventListener('drop', e => {
+      e.preventDefault();
+      card.classList.remove('drag-over');
+      if (draggedCard && draggedCard !== card) {
+        const grid = card.parentNode;
+        const allCards = [...grid.querySelectorAll('.card')];
+        const draggedIndex = allCards.indexOf(draggedCard);
+        const targetIndex = allCards.indexOf(card);
+
+        if (draggedIndex < targetIndex) {
+          grid.insertBefore(draggedCard, card.nextSibling);
+        } else {
+          grid.insertBefore(draggedCard, card);
+        }
+      }
+    });
   });
 </script>
 
